@@ -37,44 +37,95 @@ class Environment {
 
     // Spawn points for enemies
     this.spawnPoints = [
-      // Left Building Windows & Roof
-      { x: 140, y: 180, type: 'rooftop', scale: 0.9 },
-      { x: 260, y: 180, type: 'rooftop', scale: 0.9 },
-      { x: 120, y: 340, type: 'window', scale: 0.85 },
-      { x: 280, y: 340, type: 'window', scale: 0.85 },
-      { x: 120, y: 500, type: 'window', scale: 0.9 },
-      { x: 280, y: 500, type: 'window', scale: 0.9 },
+      // Spawn points are calculated from actual window positions:
+      // Window formula: wx = b.x + 25 + col*60, wy = b.y + 35 + row*90, size 35x55
+      // Stickman center X = wx + 17, feet Y = wy + 55 (standing at windowsill)
 
-      // Mid-Left Building
-      { x: 470, y: 260, type: 'rooftop', scale: 0.95 },
-      { x: 590, y: 260, type: 'rooftop', scale: 0.95 },
-      { x: 530, y: 440, type: 'window', scale: 0.9 },
-      { x: 530, y: 620, type: 'window', scale: 0.95 },
+      // === Building 1: Left high-rise (x:40, y:180, w:320, h:620) ===
+      // winCols=4 (c:0-3), winRows=6 (r:0-5)
+      // Rooftop
+      { x: 130, y: 180, type: 'rooftop', scale: 0.7 },
+      { x: 260, y: 180, type: 'rooftop', scale: 0.7 },
+      // Row 0: wy=215 → sill=270
+      { x: 82,  y: 270, type: 'window', scale: 0.65 },
+      { x: 202, y: 270, type: 'window', scale: 0.65 },
+      // Row 1: wy=305 → sill=360
+      { x: 142, y: 360, type: 'window', scale: 0.65 },
+      { x: 262, y: 360, type: 'window', scale: 0.65 },
+      // Row 2: wy=395 → sill=450
+      { x: 82,  y: 450, type: 'window', scale: 0.7 },
+      { x: 262, y: 450, type: 'window', scale: 0.7 },
+      // Row 3: wy=485 → sill=540
+      { x: 142, y: 540, type: 'window', scale: 0.7 },
+      { x: 262, y: 540, type: 'window', scale: 0.7 },
 
-      // Center Sniper Tower
-      { x: 810, y: 120, type: 'rooftop', scale: 0.85 },
-      { x: 810, y: 280, type: 'window', scale: 0.85 },
-      { x: 810, y: 460, type: 'window', scale: 0.9 },
+      // === Building 2: Mid-left apartment (x:400, y:260, w:260, h:540) ===
+      // winCols=3 (c:0-2), winRows=5 (r:0-4)
+      // Rooftop
+      { x: 480, y: 260, type: 'rooftop', scale: 0.7 },
+      { x: 570, y: 260, type: 'rooftop', scale: 0.7 },
+      // Row 0: wy=295 → sill=350
+      { x: 442, y: 350, type: 'window', scale: 0.65 },
+      { x: 562, y: 350, type: 'window', scale: 0.65 },
+      // Row 1: wy=385 → sill=440
+      { x: 502, y: 440, type: 'window', scale: 0.7 },
+      // Row 2: wy=475 → sill=530
+      { x: 442, y: 530, type: 'window', scale: 0.7 },
+      { x: 562, y: 530, type: 'window', scale: 0.7 },
 
-      // Mid-Right Complex
-      { x: 1040, y: 220, type: 'rooftop', scale: 0.9 },
-      { x: 1160, y: 220, type: 'rooftop', scale: 0.9 },
-      { x: 1040, y: 400, type: 'window', scale: 0.88 },
-      { x: 1160, y: 400, type: 'window', scale: 0.88 },
-      { x: 1100, y: 580, type: 'window', scale: 0.92 },
+      // === Building 3: Center sniper tower (x:700, y:120, w:220, h:680) ===
+      // winCols=3 (c:0-2), winRows=6 (r:0-5)
+      // Rooftop
+      { x: 810, y: 120, type: 'rooftop', scale: 0.65 },
+      // Row 0: wy=155 → sill=210
+      { x: 742, y: 210, type: 'window', scale: 0.6 },
+      { x: 862, y: 210, type: 'window', scale: 0.6 },
+      // Row 1: wy=245 → sill=300
+      { x: 802, y: 300, type: 'window', scale: 0.65 },
+      // Row 2: wy=335 → sill=390
+      { x: 742, y: 390, type: 'window', scale: 0.65 },
+      { x: 862, y: 390, type: 'window', scale: 0.65 },
+      // Row 3: wy=425 → sill=480
+      { x: 802, y: 480, type: 'window', scale: 0.7 },
 
-      // Right Skyscraper
-      { x: 1360, y: 150, type: 'rooftop', scale: 0.85 },
-      { x: 1480, y: 150, type: 'rooftop', scale: 0.85 },
-      { x: 1360, y: 320, type: 'window', scale: 0.85 },
-      { x: 1480, y: 320, type: 'window', scale: 0.85 },
-      { x: 1420, y: 500, type: 'window', scale: 0.9 },
+      // === Building 4: Mid-right complex (x:960, y:220, w:280, h:580) ===
+      // winCols=4 (c:0-3), winRows=5 (r:0-4)
+      // Rooftop
+      { x: 1050, y: 220, type: 'rooftop', scale: 0.7 },
+      { x: 1170, y: 220, type: 'rooftop', scale: 0.7 },
+      // Row 0: wy=255 → sill=310
+      { x: 1002, y: 310, type: 'window', scale: 0.65 },
+      { x: 1122, y: 310, type: 'window', scale: 0.65 },
+      // Row 1: wy=345 → sill=400
+      { x: 1062, y: 400, type: 'window', scale: 0.65 },
+      { x: 1182, y: 400, type: 'window', scale: 0.65 },
+      // Row 2: wy=435 → sill=490
+      { x: 1002, y: 490, type: 'window', scale: 0.7 },
+      { x: 1182, y: 490, type: 'window', scale: 0.7 },
 
-      // Ground Rushers / Street Alleyways
-      { x: 200, y: 780, type: 'ground', scale: 1.1 },
-      { x: 670, y: 780, type: 'ground', scale: 1.1 },
-      { x: 940, y: 780, type: 'ground', scale: 1.1 },
-      { x: 1350, y: 780, type: 'ground', scale: 1.1 }
+      // === Building 5: Right skyscraper (x:1280, y:150, w:280, h:650) ===
+      // winCols=4 (c:0-3), winRows=6 (r:0-5)
+      // Rooftop
+      { x: 1380, y: 150, type: 'rooftop', scale: 0.65 },
+      { x: 1500, y: 150, type: 'rooftop', scale: 0.65 },
+      // Row 0: wy=185 → sill=240
+      { x: 1322, y: 240, type: 'window', scale: 0.6 },
+      { x: 1502, y: 240, type: 'window', scale: 0.6 },
+      // Row 1: wy=275 → sill=330
+      { x: 1382, y: 330, type: 'window', scale: 0.65 },
+      { x: 1502, y: 330, type: 'window', scale: 0.65 },
+      // Row 2: wy=365 → sill=420
+      { x: 1322, y: 420, type: 'window', scale: 0.65 },
+      { x: 1442, y: 420, type: 'window', scale: 0.65 },
+      // Row 3: wy=455 → sill=510
+      { x: 1382, y: 510, type: 'window', scale: 0.7 },
+
+      // === Ground Rushers / Street Level (y=780) ===
+      { x: 200,  y: 780, type: 'ground', scale: 1.1 },
+      { x: 530,  y: 780, type: 'ground', scale: 1.1 },
+      { x: 810,  y: 780, type: 'ground', scale: 1.1 },
+      { x: 1100, y: 780, type: 'ground', scale: 1.1 },
+      { x: 1400, y: 780, type: 'ground', scale: 1.1 }
     ];
   }
 

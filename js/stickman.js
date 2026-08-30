@@ -204,8 +204,10 @@ class Stickman {
     ctx.lineWidth = 3.5 * this.scale;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = '#05070a';
-    ctx.fillStyle = '#05070a';
+    ctx.strokeStyle = '#e8edf5';
+    ctx.fillStyle = '#e8edf5';
+    ctx.shadowColor = '#00f3ff';
+    ctx.shadowBlur = 6;
 
     const headX = this.x;
     const headY = this.y - this.height + this.headRadius;
@@ -246,8 +248,10 @@ class Stickman {
       ctx.fillText('!', headX, badgeY);
     }
 
-    ctx.strokeStyle = '#111622';
-    ctx.fillStyle = '#111622';
+    ctx.strokeStyle = '#e8edf5';
+    ctx.fillStyle = '#e8edf5';
+    ctx.shadowColor = '#00f3ff';
+    ctx.shadowBlur = 6;
 
     // Head
     ctx.beginPath();
@@ -274,7 +278,7 @@ class Stickman {
     // Gun Barrel
     ctx.save();
     ctx.lineWidth = 4 * this.scale;
-    ctx.strokeStyle = '#000';
+    ctx.strokeStyle = '#c0c8d8';
     ctx.beginPath();
     ctx.moveTo(gunX - 5, gunY);
     ctx.lineTo(gunX - 18 * this.scale, gunY);
@@ -340,8 +344,10 @@ class Stickman {
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.lineWidth = 3.5 * this.scale;
-    ctx.strokeStyle = '#0d1117';
-    ctx.fillStyle = '#0d1117';
+    ctx.strokeStyle = '#e8edf5';
+    ctx.fillStyle = '#e8edf5';
+    ctx.shadowColor = '#00f3ff';
+    ctx.shadowBlur = 4;
 
     this.ragdollParts.forEach(part => {
       ctx.save();
