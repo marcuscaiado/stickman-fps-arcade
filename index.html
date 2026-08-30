@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stickman FPS Arcade: Stationary Rail Shooter</title>
+  <meta name="description" content="Classic arcade stationary first-person stickman sniper and gallery shooter. Aim, shoot, and survive escalating waves of hostiles!">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="game-container">
+    <!-- Canvas Game View -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Visual Overlays -->
+    <div class="crt-overlay"></div>
+    <div id="damageFlash" class="damage-flash"></div>
+
+    <!-- Sniper Scope Overlay -->
+    <div id="sniperScopeOverlay" class="sniper-scope-overlay">
+      <div class="scope-cross-h"></div>
+      <div class="scope-cross-v"></div>
+      <div class="scope-ring"></div>
+    </div>
+
+    <!-- HUD Overlay -->
+    <div id="hud">
+      <!-- Top Status Row -->
+      <div class="top-hud">
+        <div class="hud-stat-box">
+          <div class="label">SCORE</div>
+          <div id="scoreDisplay" class="value">0</div>
+        </div>
+
+        <div class="hud-stat-box wave-display">
+          <div id="waveDisplay" class="value">WAVE 1</div>
+          <div id="comboDisplay" class="combo-badge">2X COMBO!</div>
+        </div>
+
+        <div class="hud-stat-box">
+          <div class="label">BOUNTY CASH</div>
+          <div id="cashDisplay" class="value" style="color: var(--amber-glow);">$0</div>
+        </div>
+      </div>
+
+      <!-- Bottom Status Row -->
+      <div class="bottom-hud">
+        <!-- Vitals: Health & Armor -->
+        <div class="vitals-container">
+          <div class="bar-wrapper">
+            <div class="bar-label">
+              <span style="color: var(--health-green);">HEALTH</span>
+              <span id="healthText" style="color: #fff;">100 / 100</span>
+            </div>
+            <div class="bar-track">
+              <div id="healthFill" class="bar-fill health-fill"></div>
+            </div>
+          </div>
+
+          <div class="bar-wrapper">
+            <div class="bar-label">
+              <span style="color: var(--armor-blue);">ARMOR</span>
+              <span id="armorText" style="color: #fff;">0 / 100</span>
+            </div>
+            <div class="bar-track">
+              <div id="armorFill" class="bar-fill armor-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weapon Hotbar -->
+        <div class="weapon-inventory">
+          <div id="weaponSlot1" class="weapon-slot active">
+            <span class="key-hint">[1]</span>
+            <div class="name">Pistol</div>
+          </div>
+          <div id="weaponSlot2" class="weapon-slot locked">
+            <span class="key-hint">[2]</span>
+            <div class="name">Shotgun</div>
+          </div>
+          <div id="weaponSlot3" class="weapon-slot locked">
+            <span class="key-hint">[3]</span>
+            <div class="name">AR-15</div>
+          </div>
+          <div id="weaponSlot4" class="weapon-slot locked">
+            <span class="key-hint">[4]</span>
+            <div class="name">Sniper</div>
+          </div>
+          <div id="weaponSlot5" class="weapon-slot locked">
+            <span class="key-hint">[5]</span>
+            <div class="name">RPG-7</div>
+          </div>
+        </div>
+
+        <!-- Ammo Status -->
+        <div class="ammo-box">
+          <div id="reloadPrompt" class="reload-prompt">PRESS [R] TO RELOAD</div>
+          <div>
+            <span id="ammoMain" class="ammo-main">12</span>
+            <span id="ammoReserve" class="ammo-reserve">/ ∞</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- START MENU MODAL -->
+    <div id="startModal" class="modal-overlay active">
+      <div class="modal-box">
+        <h1 class="modal-title">STICKMAN FPS ARCADE</h1>
+        <p class="modal-subtitle">STATIONARY PERIMETER DEFENSE • SECTOR NOIR</p>
+        
+        <div style="text-align: left; background: rgba(0,0,0,0.5); padding: 18px 24px; border-radius: 8px; margin-bottom: 24px; font-size: 15px; line-height: 1.6;">
+          <div style="color: var(--cyan-glow); font-weight: bold; margin-bottom: 8px;">🎮 TACTICAL INSTRUCTIONS:</div>
+          <div>• <strong>MOUSE</strong>: Aim precision crosshair</div>
+          <div>• <strong>LEFT CLICK</strong>: Fire weapon (Muzzle flash, recoil & bullet tracers)</div>
+          <div>• <strong>RIGHT CLICK / SPACE</strong>: Hold to Zoom / Sniper Scope (ADS)</div>
+          <div>• <strong>[R] KEY</strong>: Tactical Reload</div>
+          <div>• <strong>[1-5] / SCROLL</strong>: Quick Switch Arsenal</div>
+          <div>• <strong>HEADSHOTS</strong>: 1-Shot Instant Kill + 2.5x Score Multiplier</div>
+        </div>
+
+        <button class="btn" onclick="window.game.startGame()">ENTER BATTLEFIELD</button>
+      </div>
+    </div>
+
+    <!-- INTERMISSION / BLACK MARKET SHOP MODAL -->
+    <div id="shopModal" class="modal-overlay">
+      <div class="modal-box" style="max-width: 900px;">
+        <h2 class="modal-title" style="font-size: 32px;">BLACK MARKET ARMORY</h2>
+        <p class="modal-subtitle">WAVE SURVIVED! REQUISITION WEAPONS & ARMOR • BONUS: <span id="shopWaveBonus" style="color: var(--amber-glow); font-weight: bold;">+$225</span></p>
+        
+        <div id="shopGrid" class="shop-grid">
+          <!-- Populated dynamically via game.js -->
+        </div>
+
+        <button class="btn" onclick="window.game.closeShopAndNextWave()">DEPLOY TO NEXT WAVE</button>
+      </div>
+    </div>
+
+    <!-- GAME OVER MODAL -->
+    <div id="gameoverModal" class="modal-overlay">
+      <div class="modal-box">
+        <h2 class="modal-title" style="color: var(--crimson-glow); -webkit-text-fill-color: var(--crimson-glow);">MISSION COMPROMISED</h2>
+        <p class="modal-subtitle">YOU HAVE BEEN ELIMINATED</p>
+        
+        <div style="display: flex; justify-content: space-around; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+          <div>
+            <div style="font-size: 12px; color: var(--text-muted);">FINAL SCORE</div>
+            <div id="finalScore" style="font-size: 28px; font-weight: bold; color: var(--cyan-glow);">0</div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: var(--text-muted);">WAVES SURVIVED</div>
+            <div id="finalWave" style="font-size: 28px; font-weight: bold; color: var(--amber-glow);">1</div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: var(--text-muted);">MAX COMBO</div>
+            <div id="finalCombo" style="font-size: 28px; font-weight: bold; color: var(--crimson-glow);">0x</div>
+          </div>
+        </div>
+
+        <button class="btn" onclick="window.game.startGame()">REDEPLOY SQUAD</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/weapons.js"></script>
+  <script src="js/stickman.js"></script>
+  <script src="js/environment.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
