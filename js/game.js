@@ -634,7 +634,17 @@ class Game {
     document.getElementById('finalScore').innerText = this.score.toLocaleString();
     document.getElementById('finalWave').innerText = this.currentWave;
     document.getElementById('finalCombo').innerText = `${this.maxCombo}x`;
-    document.getElementById('gameoverModal').classList.add('active');
+
+    if (window.ArcadeLeaderboard) {
+      window.ArcadeLeaderboard.show({
+        gameId: 'stickman-fps-arcade',
+        score: this.score,
+        scoreUnit: 'PTS',
+        onRestart: () => this.startGame()
+      });
+    } else {
+      document.getElementById('gameoverModal').classList.add('active');
+    }
   }
 
   togglePause() {
