@@ -1,8 +1,15 @@
-# 🎮 Stickman FPS Arcade (Stationary Rail Shooter)
+# 🎮 Stickman FPS Arcade
+
+[![Live Demo](https://img.shields.io/badge/🎮_Play_Live_Demo-marcuscaiado.github.io-success?style=for-the-badge&logo=githubpages&logoColor=white)](https://marcuscaiado.github.io/stickman-fps-arcade/)
+[![Vanilla JS](https://img.shields.io/badge/Vanilla_JS-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Web Audio API](https://img.shields.io/badge/Web_Audio_API-000000?style=flat&logo=audacity&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 
 A fast, responsive, zero-dependency first-person stickman arcade shooter built with HTML5 Canvas, Web Audio API, and Vanilla JavaScript.
 
-![Stickman FPS Arcade](https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80)
+## 🎮 Play Online
+
+Play directly in your browser:
+👉 **[https://marcuscaiado.github.io/stickman-fps-arcade/](https://marcuscaiado.github.io/stickman-fps-arcade/)**
 
 ---
 
@@ -19,21 +26,19 @@ A fast, responsive, zero-dependency first-person stickman arcade shooter built w
 
 ## ⚡ Features
 
-- **Classic Stationary FPS Perspective**: You are fixed in a sniper/bunker outpost. Only aim, shoot, and survive.
+- **Classic Stationary FPS Perspective**: You are fixed in a bunker outpost. Aim, shoot, and survive waves.
 - **5 Distinct Weapons**: Pistol, Shotgun, Full-Auto Assault Rifle, Heavy Sniper Rifle, and RPG Launcher.
-- **Wave & Progression System**: Increasing difficulty, enemy reaction speed, and enemy count.
+- **Wave & Progression System**: Increasing difficulty, enemy reaction speed, and tactical enemy counts.
 - **Intermission Black Market Shop**: Buy weapon upgrades (Damage, Mag Size, Fire Rate, Reload Speed) and Body Armor between waves.
-- **Dynamic Procedural Audio**: 100% Web Audio API synthesized audio (gunshots, shells, reloads, explosions, and headshot dings) - zero external audio assets required.
-- **Physics & Decals**: Hitboxes for Headshots (instant kill), Torso, and Limbs. Ragdoll physics, blood splatters, and bullet holes on concrete.
+- **Dynamic Procedural Audio**: 100% Web Audio API synthesized audio (gunshots, shells, reloads, explosions, and headshot dings).
+- **Physics & Decals**: Hitboxes for Headshots (instant kill), Torso, and Limbs. Ragdoll physics, blood splatters, and bullet decals.
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Run Locally
 
-1. Simply open `index.html` in any modern web browser (Chrome, Edge, Firefox, Safari).
-2. Alternatively, serve with any local server:
+1. Simply open `index.html` in any modern web browser.
+2. Alternatively, serve with a local dev server:
    ```bash
    npx serve .
-   # or
-   python -m http.server 8000
    ```
