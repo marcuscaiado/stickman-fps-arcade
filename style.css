@@ -555,3 +555,114 @@ body, html {
   0% { transform: translateY(0) scale(1); opacity: 1; }
   100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
 }
+
+/* RESPONSIVE DESIGN (MOBILE & GALAXY A55) */
+@media (max-width: 900px) {
+  #hud {
+    padding: 10px 14px;
+  }
+  .hud-stat-box .value {
+    font-size: 18px;
+  }
+  .vitals-container {
+    min-width: 140px;
+  }
+  .weapon-slot {
+    min-width: 70px;
+    padding: 6px 10px;
+  }
+  .weapon-slot .name {
+    font-size: 11px;
+  }
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 48vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  #hud {
+    padding: 6px 8px;
+  }
+  .arcade-corner-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+    top: 8px;
+    right: 8px;
+  }
+  .top-hud {
+    margin-bottom: 0;
+  }
+  .hud-stat-box {
+    padding: 4px 8px;
+  }
+  .hud-stat-box .label {
+    font-size: 8px;
+  }
+  .hud-stat-box .value {
+    font-size: 14px;
+  }
+  .bottom-hud {
+    gap: 6px;
+  }
+  .vitals-container {
+    min-width: 100px;
+    gap: 4px;
+  }
+  .bar-label {
+    font-size: 9px;
+  }
+  .bar-track {
+    height: 8px;
+  }
+  .weapon-inventory {
+    gap: 3px;
+  }
+  .weapon-slot {
+    min-width: 48px;
+    padding: 3px 5px;
+    border-radius: 4px;
+  }
+  .weapon-slot .key-hint {
+    display: none;
+  }
+  .weapon-slot .name {
+    font-size: 9px;
+  }
+  .ammo-box {
+    padding: 4px 8px;
+    min-width: 65px;
+  }
+  .ammo-main {
+    font-size: 18px;
+  }
+  .ammo-reserve {
+    font-size: 11px;
+  }
+  .modal-box {
+    padding: 18px 16px;
+    max-width: 94vw;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+  .modal-box h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .shop-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    max-height: 45vh;
+  }
+  .shop-card {
+    padding: 10px;
+  }
+  .shop-card h4 {
+    font-size: 13px;
+  }
+  .shop-card p {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+}

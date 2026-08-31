@@ -126,19 +126,67 @@ class Game {
       }
     });
 
-    // Continuous Full Auto firing check
-    setInterval(() => {
-      if (this.state === 'playing' && this.weapons.getCurrentWeapon().automatic && this.isMouseDown) {
+    // Touch Input Support (Mobile / Galaxy A55)
+    const updateTouchPos = (touch) => {
+      const rect = this.canvas.getBoundingClientRect();
+      const scaleX = this.width / rect.width;
+      const scaleY = this.height / rect.height;
+      this.mouseX = (touch.clientX - rect.left) * scaleX;
+      this.mouseY = (touch.clientY - rect.top) * scaleY;
+    };
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.modal, .arcade-corner-btn, .weapon-slot, .ammo-box, #reloadPrompt')) return;
+      this.sound.init();
+      if (this.state !== 'playing') return;
+      if (e.touches.length > 0) {
+        updateTouchPos(e.touches[0]);
+        this.isMouseDown = true;
         this.shoot();
       }
-    }, 50);
+    }, { passive: true });
 
-    window.addEventListener('mousedown', (e) => {
-      if (e.button === 0) this.isMouseDown = true;
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        updateTouchPos(e.touches[0]);
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      this.isMouseDown = false;
     });
-    window.addEventListener('mouseup', (e) => {
-      if (e.button === 0) this.isMouseDown = false;
+
+    // Weapon slot tap / click listeners for mobile & PC
+    [1, 2, 3, 4, 5].forEach(slot => {
+      const slotEl = document.getElementById(`weaponSlot${slot}`);
+      if (slotEl) {
+        slotEl.style.cursor = 'pointer';
+        slotEl.addEventListener('click', () => {
+          this.sound.init();
+          this.weapons.selectBySlot(slot);
+          this.updateHUD();
+        });
+      }
     });
+
+    // Reload prompt / ammo box click to reload
+    const reloadPromptEl = document.getElementById('reloadPrompt');
+    if (reloadPromptEl) {
+      reloadPromptEl.addEventListener('click', () => {
+        this.sound.init();
+        this.weapons.startReload();
+        this.updateHUD();
+      });
+    }
+    const ammoBoxEl = document.querySelector('.ammo-box');
+    if (ammoBoxEl) {
+      ammoBoxEl.style.cursor = 'pointer';
+      ammoBoxEl.addEventListener('click', () => {
+        this.sound.init();
+        this.weapons.startReload();
+        this.updateHUD();
+      });
+    }
   }
 
   startLoop() {
