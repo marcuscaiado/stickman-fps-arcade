@@ -635,16 +635,13 @@ class Game {
     document.getElementById('finalWave').innerText = this.currentWave;
     document.getElementById('finalCombo').innerText = `${this.maxCombo}x`;
 
-    if (window.ArcadeLeaderboard) {
-      window.ArcadeLeaderboard.show({
-        gameId: 'stickman-fps-arcade',
-        score: this.score,
-        scoreUnit: 'PTS',
-        onRestart: () => this.startGame()
-      });
-    } else {
-      document.getElementById('gameoverModal').classList.add('active');
-    }
+    document.getElementById('gameoverModal').classList.add('active');
+
+    try {
+      if (window.ArcadeLeaderboard) {
+        window.ArcadeLeaderboard.submitScore('stickman-fps-arcade', this.score);
+      }
+    } catch(e){}
   }
 
   togglePause() {
