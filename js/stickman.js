@@ -131,7 +131,7 @@ class Stickman {
     }
 
     // Body / Torso & Limbs hitbox
-    const bodyHalfWidth = 18 * this.scale;
+    const bodyHalfWidth = 22 * this.scale;
     const bodyTop = this.y - this.height;
     const bodyBottom = this.y;
 
@@ -204,10 +204,10 @@ class Stickman {
     ctx.lineWidth = 3.5 * this.scale;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = '#e8edf5';
-    ctx.fillStyle = '#e8edf5';
-    ctx.shadowColor = '#00f3ff';
-    ctx.shadowBlur = 6;
+    ctx.strokeStyle = '#39ff14';
+    ctx.fillStyle = '#39ff14';
+    ctx.shadowColor = '#39ff14';
+    ctx.shadowBlur = 8;
 
     const headX = this.x;
     const headY = this.y - this.height + this.headRadius;
@@ -248,10 +248,10 @@ class Stickman {
       ctx.fillText('!', headX, badgeY);
     }
 
-    ctx.strokeStyle = '#e8edf5';
-    ctx.fillStyle = '#e8edf5';
-    ctx.shadowColor = '#00f3ff';
-    ctx.shadowBlur = 6;
+    ctx.strokeStyle = '#39ff14';
+    ctx.fillStyle = '#39ff14';
+    ctx.shadowColor = '#39ff14';
+    ctx.shadowBlur = 8;
 
     // Head
     ctx.beginPath();
@@ -344,10 +344,10 @@ class Stickman {
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.lineWidth = 3.5 * this.scale;
-    ctx.strokeStyle = '#e8edf5';
-    ctx.fillStyle = '#e8edf5';
-    ctx.shadowColor = '#00f3ff';
-    ctx.shadowBlur = 4;
+    ctx.strokeStyle = '#39ff14';
+    ctx.fillStyle = '#39ff14';
+    ctx.shadowColor = '#39ff14';
+    ctx.shadowBlur = 6;
 
     this.ragdollParts.forEach(part => {
       ctx.save();

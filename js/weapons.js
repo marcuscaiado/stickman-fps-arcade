@@ -33,7 +33,7 @@ class WeaponManager {
         slot: 2,
         unlocked: false,
         unlockCost: 600,
-        damage: 22, // per pellet
+        damage: 30, // per pellet
         pellets: 8,
         fireRate: 750,
         magSize: 6,
@@ -41,7 +41,7 @@ class WeaponManager {
         reserveAmmo: 48,
         reloadTime: 2200,
         recoil: 18,
-        spread: 0.08,
+        spread: 0.045,
         automatic: false,
         zoomFactor: 1.05,
         soundType: 'shotgun',
