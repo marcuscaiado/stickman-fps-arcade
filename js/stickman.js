@@ -8,8 +8,8 @@ class Stickman {
     
     // Scale and size
     this.scale = spawnPoint.scale || 1.0;
-    this.height = 70 * this.scale;
-    this.headRadius = 9 * this.scale;
+    this.height = 74 * this.scale;
+    this.headRadius = 11 * this.scale;
     
     // Health and state
     this.maxHealth = (type === 'shield' ? 140 : (type === 'sniper' ? 60 : (type === 'rusher' ? 40 : 70))) * difficultyMultiplier;
@@ -107,9 +107,15 @@ class Stickman {
     const headY = this.y - this.height + this.headRadius;
     const torsoY = this.y - this.height / 2;
 
-    // Head hitbox (Radius)
+    // Head hitbox — generous, realistic arcade hitbox (covers head, chin, neck, and crown)
+    const headHitRadius = Math.max(16, 20 * this.scale);
     const distHead = Math.hypot(rayX - this.x, rayY - headY);
-    if (distHead <= this.headRadius * 1.35) {
+    const inHeadCapsule = (
+      distHead <= headHitRadius ||
+      (rayY >= headY - headHitRadius * 1.15 && rayY <= headY + headHitRadius * 1.05 && Math.abs(rayX - this.x) <= headHitRadius * 0.95)
+    );
+
+    if (inHeadCapsule) {
       this.health -= damage * 2.5; // Headshot critical
       if (this.health <= 0) {
         this.die(true, rayX, rayY);
@@ -130,9 +136,9 @@ class Stickman {
       }
     }
 
-    // Body / Torso & Limbs hitbox
+    // Body / Torso & Limbs hitbox (starts below the head zone so body doesn't intercept headshots)
     const bodyHalfWidth = 22 * this.scale;
-    const bodyTop = this.y - this.height;
+    const bodyTop = headY + headHitRadius * 0.8;
     const bodyBottom = this.y;
 
     if (rayX >= this.x - bodyHalfWidth && rayX <= this.x + bodyHalfWidth &&
