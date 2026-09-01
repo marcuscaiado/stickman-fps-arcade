@@ -265,10 +265,10 @@ class Game {
     this.sound.playGunshot(currentWeapon.soundType);
     this.sound.playShellDrop();
 
-    // Visual recoil & screen shake
+    // Visual recoil animation & screen shake (visual only — click accuracy is 100% true to crosshair)
     const currentRecoil = this.isADS ? currentWeapon.recoil * 0.5 : currentWeapon.recoil;
-    this.recoilOffsetY += currentRecoil;
-    this.environment.triggerShake(currentRecoil * 0.5);
+    this.recoilOffsetY = Math.min(15, this.recoilOffsetY + currentRecoil * 0.5);
+    this.environment.triggerShake(currentRecoil * 0.4);
 
     // Origin of tracer (bottom right of screen)
     const tracerOriginX = this.width * 0.7;
@@ -279,17 +279,22 @@ class Game {
     // Handle Shotgun multi-pellets vs single projectile
     const pellets = currentWeapon.pellets || 1;
     for (let p = 0; p < pellets; p++) {
-      const spreadX = (Math.random() - 0.5) * (this.width * currentWeapon.spread * (this.isADS ? 0.4 : 1.0));
-      const spreadY = (Math.random() - 0.5) * (this.height * currentWeapon.spread * (this.isADS ? 0.4 : 1.0));
+      // 100% Pinpoint Accuracy: Primary raycast lands exactly at (mouseX, mouseY)
+      let targetX = this.mouseX;
+      let targetY = this.mouseY;
 
-      const targetX = this.mouseX + spreadX;
-      const targetY = this.mouseY + spreadY - this.recoilOffsetY;
+      // Secondary shotgun pellets only
+      if (pellets > 1 && p > 0) {
+        targetX += (Math.random() - 0.5) * (this.width * currentWeapon.spread);
+        targetY += (Math.random() - 0.5) * (this.height * currentWeapon.spread);
+      }
 
       this.environment.addTracer(tracerOriginX, tracerOriginY, targetX, targetY, currentWeapon.id === 'sniper' ? '#ff0055' : '#00f3ff');
 
       // Check hit against active enemies
       let hitTarget = null;
-      for (let enemy of this.enemies) {
+      for (let i = this.enemies.length - 1; i >= 0; i--) {
+        const enemy = this.enemies[i];
         const hitRes = enemy.checkHit(targetX, targetY, currentWeapon.damage, currentWeapon.id === 'rpg');
         if (hitRes) {
           hitTarget = { enemy, ...hitRes };
@@ -307,7 +312,7 @@ class Game {
           this.addScore(250 * (this.combo + 1), true);
           this.cash += 50;
           this.combo++;
-          this.showFloatingText('CRITICAL HEADSHOT!', targetX, targetY, '#ff0055');
+          this.showFloatingText('CRITICAL HEADSHOT! 💀', targetX, targetY, '#ff0055');
         } else {
           this.environment.addBloodSpatter(targetX, targetY, false);
           this.addScore(100 * (this.combo + 1), false);
@@ -441,7 +446,7 @@ class Game {
 
   drawCrosshair(ctx) {
     const x = this.mouseX;
-    const y = this.mouseY - this.recoilOffsetY;
+    const y = this.mouseY;
     const w = this.weapons.getCurrentWeapon();
 
     ctx.save();
@@ -450,7 +455,7 @@ class Game {
     ctx.shadowColor = '#00f3ff';
     ctx.shadowBlur = 6;
 
-    const gap = 6 + (this.recoilOffsetY * 0.8) + (w.spread * 150);
+    const gap = 6 + (this.recoilOffsetY * 0.4);
     const len = 10;
 
     // Crosshair ticks
@@ -461,10 +466,10 @@ class Game {
     ctx.moveTo(x, y + gap); ctx.lineTo(x, y + gap + len);
     ctx.stroke();
 
-    // Center dot
+    // Center precision dot (neon pink)
     ctx.fillStyle = '#ff0055';
     ctx.beginPath();
-    ctx.arc(x, y, 2, 0, Math.PI * 2);
+    ctx.arc(x, y, 2.5, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.restore();

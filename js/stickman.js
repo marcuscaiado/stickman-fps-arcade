@@ -108,15 +108,15 @@ class Stickman {
     const torsoY = this.y - this.height / 2;
 
     // Head hitbox — generous, realistic arcade hitbox (covers head, chin, neck, and crown)
-    const headHitRadius = Math.max(16, 20 * this.scale);
+    const headHitRadius = Math.max(18, 22 * this.scale);
     const distHead = Math.hypot(rayX - this.x, rayY - headY);
     const inHeadCapsule = (
       distHead <= headHitRadius ||
-      (rayY >= headY - headHitRadius * 1.15 && rayY <= headY + headHitRadius * 1.05 && Math.abs(rayX - this.x) <= headHitRadius * 0.95)
+      (rayY >= headY - headHitRadius * 1.2 && rayY <= headY + headHitRadius * 1.1 && Math.abs(rayX - this.x) <= headHitRadius * 0.95)
     );
 
     if (inHeadCapsule) {
-      this.health -= damage * 2.5; // Headshot critical
+      this.health -= damage * 3.0; // 1-tap instant headshot critical
       if (this.health <= 0) {
         this.die(true, rayX, rayY);
       }
