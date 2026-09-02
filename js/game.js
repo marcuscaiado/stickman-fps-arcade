@@ -364,9 +364,18 @@ class Game {
   addScore(pts, isHeadshot) {
     this.score += pts;
     this.updateHUD();
+    if (window.DopamineSynth) {
+      if (isHeadshot) window.DopamineSynth.playCombo(4);
+      else window.DopamineSynth.playTap(0.2, 1.2);
+    }
   }
 
   showFloatingText(text, x, y, color = '#00f3ff') {
+    if (window.DopamineJuice) {
+      const px = (x / this.width) * window.innerWidth;
+      const py = (y / this.height) * window.innerHeight;
+      window.DopamineJuice.spawnScore(px, py, text, 2);
+    }
     const el = document.createElement('div');
     el.className = 'floating-text';
     el.innerText = text;
@@ -636,6 +645,8 @@ class Game {
 
   gameOver() {
     this.state = 'gameover';
+    if (window.DopamineSynth) window.DopamineSynth.playWin();
+    if (window.DopamineJuice) window.DopamineJuice.explodeConfetti(window.innerWidth / 2, window.innerHeight * 0.4, 65);
     document.getElementById('finalScore').innerText = this.score.toLocaleString();
     document.getElementById('finalWave').innerText = this.currentWave;
     document.getElementById('finalCombo').innerText = `${this.maxCombo}x`;
