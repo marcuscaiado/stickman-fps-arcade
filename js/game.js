@@ -203,6 +203,7 @@ class Game {
   }
 
   startGame() {
+    if (window.ArcadeDifficulty) ArcadeDifficulty.reset();
     this.sound.init();
     this.health = 100;
     this.armor = 0;
@@ -226,7 +227,7 @@ class Game {
 
   startWave(waveNum) {
     this.currentWave = waveNum;
-    this.enemiesRemainingInWave = 5 + waveNum * 3;
+    this.enemiesRemainingInWave = window.ArcadeDifficulty ? ArcadeDifficulty.scaleCount(5 + waveNum * 3, this.score, 3500, 25) : (5 + waveNum * 3);
     this.isWaveActive = true;
     this.waveSpawnTimer = 0;
     this.enemies = [];
@@ -247,7 +248,8 @@ class Game {
     if (this.currentWave >= 3 && rand > 0.8) type = 'rusher';
     if (this.currentWave >= 4 && rand > 0.88) type = 'shield';
 
-    const diffMultiplier = 1.0 + (this.currentWave - 1) * 0.15;
+    const ddaMult = window.ArcadeDifficulty ? ArcadeDifficulty.getMultiplier(this.score, 3500, 2.2) : 1.0;
+    const diffMultiplier = Math.max(1.0 + (this.currentWave - 1) * 0.15, ddaMult);
     this.enemies.push(new Stickman(pt, type, diffMultiplier));
     this.enemiesRemainingInWave--;
   }
