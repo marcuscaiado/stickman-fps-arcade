@@ -173,6 +173,10 @@ class SoundEngine {
 
   // Metallic shell casing drop
   playShellDrop() {
+    if (window.arcadeAudio) {
+      window.arcadeAudio.playBounce(1.5, 'metal');
+      return;
+    }
     if (!this.ctx) return;
     const now = this.ctx.currentTime + 0.15;
     const osc = this.ctx.createOscillator();
@@ -193,6 +197,10 @@ class SoundEngine {
 
   // Reload ratchet & magazine slap
   playReload() {
+    if (window.arcadeAudio) {
+      window.arcadeAudio.playClick();
+      return;
+    }
     if (!this.ctx) return;
     this.resume();
     const now = this.ctx.currentTime;
@@ -226,6 +234,10 @@ class SoundEngine {
 
   // High-satisfaction Headshot bell chime
   playHeadshot() {
+    if (window.arcadeAudio) {
+      window.arcadeAudio.playTriumph();
+      return;
+    }
     if (!this.ctx) return;
     this.resume();
     const now = this.ctx.currentTime;
@@ -250,6 +262,10 @@ class SoundEngine {
 
   // Hit marker blip
   playHitmarker() {
+    if (window.arcadeAudio) {
+      window.arcadeAudio.playPop(1.4, 0.2);
+      return;
+    }
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
@@ -270,6 +286,10 @@ class SoundEngine {
 
   // Deep booming explosion
   playExplosion() {
+    if (window.arcadeAudio) {
+      window.arcadeAudio.playSoftThud(1.5);
+      return;
+    }
     if (!this.ctx) return;
     this.resume();
     const now = this.ctx.currentTime;
@@ -296,13 +316,17 @@ class SoundEngine {
 
   // Player taking damage
   playDamageAlert() {
+    if (window.arcadeAudio) {
+      window.arcadeAudio.playSoftThud(1.1);
+      return;
+    }
     if (!this.ctx) return;
     this.resume();
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'sawtooth';
+    osc.type = 'triangle';
     osc.frequency.setValueAtTime(120, now);
     osc.frequency.linearRampToValueAtTime(60, now + 0.2);
 
